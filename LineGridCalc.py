@@ -1,20 +1,50 @@
+
+# Calculates for 12 grid levels
+
 """
-line_grid_calc.py
+1 coarse grid:
 
-Python translation of the Fortran module LineGridCalc.
-Computes contributions to LBL (Line-By-Line) spectral grids from the left wing,
-central part, and right wing of a spectral line's extended sub-interval.
+RK — the main uniform coarse grid with NT points and spacing H
 
-The module uses a hierarchical multi-resolution grid scheme:
-  - Fine grids: RK0 (finest) through RK9, each with spacing H0 through H9
-  - Coarse grid: RK, with uniform spacing H
-  - Each RK_n array holds NT_n points; P/L suffixes are the "previous" and
-    "later" neighbouring points on the next-coarser grid level.
+10 fine sub-grids (finest to coarsest):
 
-External state (equivalent to the Fortran USE'd modules) is held in a
-GridState dataclass so the functions are pure with respect to caller-supplied
-state rather than relying on module-level globals.
+RK0 — finest, spacing H0, NT0 points
+RK1 — spacing H1, NT1 points
+RK2 — spacing H2, NT2 points
+RK3 — spacing H3, NT3 points
+RK4 — spacing H4, NT4 points
+RK5 — spacing H5, NT5 points
+RK6 — spacing H6, NT6 points
+RK7 — spacing H7, NT7 points
+RK8 — spacing H8, NT8 points
+RK9 — coarsest of the fine grids, spacing H9, NT9 points
+
+Each fine grid also has 2 neighbour arrays:
+
+RKn_P — contribution to the "previous" point on the next coarser level
+RKnL — contribution to the "later" point on the next coarser level
+
+So in total there are 31 arrays (1 + 10×3), but they represent 11 resolution levels of a single hierarchical grid — each level is roughly twice the spacing of the one below it.
+
 """
+
+# """
+# line_grid_calc.py
+
+# Python translation of the Fortran module LineGridCalc.
+# Computes contributions to LBL (Line-By-Line) spectral grids from the left wing,
+# central part, and right wing of a spectral line's extended sub-interval.
+
+# The module uses a hierarchical multi-resolution grid scheme:
+#   - Fine grids: RK0 (finest) through RK9, each with spacing H0 through H9
+#   - Coarse grid: RK, with uniform spacing H
+#   - Each RK_n array holds NT_n points; P/L suffixes are the "previous" and
+#     "later" neighbouring points on the next-coarser grid level.
+
+# External state (equivalent to the Fortran USE'd modules) is held in a
+# GridState dataclass so the functions are pure with respect to caller-supplied
+# state rather than relying on module-level globals.
+# """
 
 from __future__ import annotations
 

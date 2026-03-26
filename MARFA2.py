@@ -1449,7 +1449,7 @@ def print_marfa_banner():
 
 
 # ==============================================================================
-# EXAMPLE
+# EXAMPLE 
 # ==============================================================================
 
 def example_basic_calculation():
@@ -1457,7 +1457,7 @@ def example_basic_calculation():
     print("Example: CO2 Absorption Calculation")
     print("=" * 60)
 
-    NU_MIN, NU_MAX = 1000.0, 6000.0
+    NU_MIN, NU_MAX = 2000.0, 2300.0
     NU_RESOLUTION  = 0.05
     T, P           = 323.0, 1.0
     MOLE_FRACTION  = 400e-6
@@ -1522,4 +1522,4 @@ def example_basic_calculation():
 
 if __name__ == "__main__":
     example_basic_calculation()
-
+    
